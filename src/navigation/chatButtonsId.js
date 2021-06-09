@@ -1,0 +1,4 @@
+export default {
+  GROUP_CHAT: 'CHATS_GROUP_CHAT',
+  DIRECT_MESSAGE: 'CHAT_DIRECT_MESSAGE',
+};

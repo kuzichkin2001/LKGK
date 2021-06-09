@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "64178146190",
+    "firebase_url": "https://mobile-osnova-yksoft.firebaseio.com",
+    "project_id": "mobile-osnova-yksoft",
+    "storage_bucket": "mobile-osnova-yksoft.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64178146190:android:4f4b17371a71fd66fa72df",
+        "android_client_info": {
+          "package_name": "mobapp.gk.osnova"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64178146190-tmaqd6mg1iga354indalcvjp0habd699.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW096cn4MOnFu9a6WHz3qAN2JosoqE6pU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64178146190-tmaqd6mg1iga354indalcvjp0habd699.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64178146190:android:50fa6f2bff6e22bdfa72df",
+        "android_client_info": {
+          "package_name": "ru.yksoft.gk_osnova"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64178146190-tmaqd6mg1iga354indalcvjp0habd699.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW096cn4MOnFu9a6WHz3qAN2JosoqE6pU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64178146190-tmaqd6mg1iga354indalcvjp0habd699.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
