@@ -1,5 +1,12 @@
 import React, {PureComponent} from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Dimensions,
+  Platform,
+} from 'react-native';
 
 import commonStyles from '../../styles';
 import {MESSAGE_TYPE} from '../../constants';
@@ -59,7 +66,7 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    width: '100%',
+    width: Dimensions.get('screen').width,
   },
   titleRowContent: {
     flexDirection: 'row',
@@ -75,14 +82,16 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   userNameInfo: {
-    width: 210,
+    width:
+      Dimensions.get('screen').width * (Platform.OS === 'ios' ? 0.6 : 0.55),
   },
   messageTimeOffset: {
     marginRight: 17,
   },
   messageContent: {
     ...commonStyles.texts.grayLabel,
-    width: 210,
+    width:
+      Dimensions.get('screen').width * (Platform.OS === 'ios' ? 0.6 : 0.55),
     flexWrap: 'wrap',
   },
 });

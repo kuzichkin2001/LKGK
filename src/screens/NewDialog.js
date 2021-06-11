@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import {observer, inject} from 'mobx-react';
 import {action, toJS, observable, computed} from 'mobx';
 
@@ -7,10 +7,13 @@ import screensId from '../navigation/screensId';
 import locale from '../locale';
 import requests from '../network/requests';
 import {showMessage} from '../utils/showMessage';
+import CommonTouchable from '../components/buttons/commonTouchable';
 
 import EmployeesChatList from '../components/lists/employeesChatList';
 import CreateChatButton from '../components/buttons/createChatButton';
 import commonStyles from '../styles';
+import topBarButtons from '../navigation/topBarButtons';
+import SearchInput from '../components/inputs/searchInput';
 
 @inject('navigationStore', 'profileStore')
 @observer
@@ -139,6 +142,11 @@ class NewDialogScreen extends Component {
   render() {
     return (
       <View style={styles.screenBackground}>
+        <SearchInput
+          onChangeText={this.handleSearchChange}
+          value={this.searchInputValue}
+          autoCorrect={false}
+        />
         <View style={styles.blockOffset}>
           <CreateChatButton
             onPress={() => this.handleButtonPress(screensId.NEW_GROUP_CHAT)}
@@ -171,6 +179,7 @@ class NewDialogScreen extends Component {
 const styles = StyleSheet.create({
   screenBackground: {
     backgroundColor: commonStyles.colors.backgroundGray,
+    flex: 1,
   },
   blockOffset: {
     marginTop: 24,

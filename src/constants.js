@@ -56,18 +56,22 @@ export const MOCK_USERS = [
   {
     userId: 1,
     fullName: 'Константинопольский Константин Константинович',
+    icon: require('./assets/images/userProfileAvatars/ava.png'),
   },
   {
     userId: 2,
     fullName: 'Печорин Игорь Дмитриевич',
+    icon: require('./assets/images/userProfileAvatars/ava2.png'),
   },
   {
     userId: 3,
     fullName: 'Цыпа Петр Семенович',
+    icon: require('./assets/images/userProfileAvatars/ava3.png'),
   },
   {
     userId: 4,
     fullName: 'Кузичкин Павел Александрович',
+    icon: require('./assets/images/userProfileAvatars/me.png'),
   },
 ];
 
