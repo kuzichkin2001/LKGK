@@ -11,6 +11,7 @@ import ChatsList from '../components/lists/chatsList';
 import commonStyles from 'styles';
 import {getStatusBarHeight} from 'react-native-iphone-x-helper';
 import {mockChats} from '../constants';
+import ScreenWrapper from '../components/ScreenWrapper';
 
 @inject('navigationStore')
 @observer

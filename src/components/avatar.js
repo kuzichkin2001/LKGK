@@ -23,6 +23,7 @@ const Avatar = ({
   wrapperStyle,
   isBig,
   isMedium,
+  isTick,
 }) => {
   const avatarBackgroundStyle = {
     backgroundColor: background || commonStyles.colors.avatarBlue,
