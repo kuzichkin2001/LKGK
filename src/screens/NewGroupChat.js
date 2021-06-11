@@ -30,6 +30,8 @@ class NewGroupChatScreen extends Component {
         title: {
           text: locale.ru.chats_new_group_chat,
         },
+        rightButtons: [topBarButtons.createTextButton],
+        rightButtonColor: '#85D305',
       },
     };
   }

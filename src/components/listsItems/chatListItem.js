@@ -1,5 +1,13 @@
 import React, {PureComponent} from 'react';
-import {StyleSheet, View, Text, Image, Dimensions} from 'react-native';
+
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Dimensions,
+  Platform,
+} from 'react-native';
 
 import commonStyles from '../../styles';
 import {MESSAGE_TYPE} from '../../constants';
@@ -75,14 +83,16 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   userNameInfo: {
-    width: Dimensions.get('screen').width * 0.6,
+    width:
+      Dimensions.get('screen').width * (Platform.OS === 'ios' ? 0.6 : 0.55),
   },
   messageTimeOffset: {
     marginRight: 17,
   },
   messageContent: {
     ...commonStyles.texts.grayLabel,
-    width: Dimensions.get('screen').width * 0.6,
+    width:
+      Dimensions.get('screen').width * (Platform.OS === 'ios' ? 0.6 : 0.55),
     flexWrap: 'wrap',
   },
 });
