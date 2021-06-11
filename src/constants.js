@@ -56,18 +56,22 @@ export const MOCK_USERS = [
   {
     userId: 1,
     fullName: 'Константинопольский Константин Константинович',
+    isTick: false,
   },
   {
     userId: 2,
     fullName: 'Печорин Игорь Дмитриевич',
+    isTick: false,
   },
   {
     userId: 3,
     fullName: 'Цыпа Петр Семенович',
+    isTick: false,
   },
   {
     userId: 4,
     fullName: 'Кузичкин Павел Александрович',
+    isTick: false,
   },
 ];
 

@@ -9,4 +9,8 @@ export default {
     id: chatButtonsId.DIRECT_MESSAGE,
     icon: require('images/navBarIcons/newDirectMessage.png'),
   },
+  tick: {
+    id: chatButtonsId.TICK,
+    icon: require('images/Tick.png'),
+  },
 };

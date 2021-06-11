@@ -12,10 +12,12 @@ class EmployeesChatList extends PureComponent {
         isAchieve={item.achive_show}
         isOnline={item.in_office}
         subtitleStyle={styles.userType}
-        onPress={() => handleEmployeePress(item)}
-        subtitle={item.position}
-        avatarSettings={item.avatar}
-        title={item.full_name || (!!item.name && item.name.full_name) || ''}
+        onPress={() => {
+          item.isTick = true;
+        }}
+        avatarSettings={item.icon}
+        title={item.fullName || (!!item.name && item.name.full_name) || ''}
+        isTick={item.isTick}
       />
     );
   };

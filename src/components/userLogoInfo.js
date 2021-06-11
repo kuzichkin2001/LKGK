@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Image} from 'react-native';
 
 import commonStyles from 'styles';
 import Avatar from './avatar';
@@ -14,16 +14,23 @@ const UserLogoInfo = ({
   isOnline,
   isAchieve,
 }) => {
+  const [isTick, setIsTick] = useState(false);
   return (
     <CommonTouchable
       disabled={!onPress}
-      onPress={onPress}
+      onPress={() => setIsTick(prev => !prev)}
       style={styles.wrapper}>
       <Avatar {...avatarSettings} isOnline={isOnline} isAchieve={isAchieve} />
       <View style={styles.infoWrapper}>
         <Text style={commonStyles.texts.commonLarge}>{title}</Text>
         <Text style={[styles.subtitle, subtitleStyle]}>{subtitle}</Text>
       </View>
+      {!!isTick && (
+        <Image
+          style={[styles.isTick]}
+          source={require('../assets/images/Tick.png')}
+        />
+      )}
     </CommonTouchable>
   );
 };

@@ -11,6 +11,7 @@ import ChatsList from '../components/lists/chatsList';
 import commonStyles from 'styles';
 import {getStatusBarHeight} from 'react-native-iphone-x-helper';
 import {mockChats} from '../constants';
+import ScreenWrapper from '../components/ScreenWrapper';
 
 @inject('navigationStore')
 @observer
@@ -70,7 +71,6 @@ class ChatScreen extends Component {
   render() {
     return (
       <View style={commonStyles.common.screenWrapper}>
-        {Platform.OS === 'ios' && <View style={styles.statusBar} />}
         <ChatsList data={mockChats} handleChatPress={this.handleChatPress} />
       </View>
     );
