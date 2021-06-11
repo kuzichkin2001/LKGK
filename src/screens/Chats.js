@@ -70,7 +70,6 @@ class ChatScreen extends Component {
   render() {
     return (
       <View style={commonStyles.common.screenWrapper}>
-        {Platform.OS === 'ios' && <View style={styles.statusBar} />}
         <ChatsList data={mockChats} handleChatPress={this.handleChatPress} />
       </View>
     );

@@ -9,6 +9,7 @@ import requests from '../network/requests';
 import {showMessage} from '../utils/showMessage';
 import ScreenWrapper from '../components/ScreenWrapper';
 import EmployeesSearchList from '../components/lists/employeesSearchList';
+import topBarButtons from "../navigation/topBarButtons";
 
 @inject('navigationStore', 'profileStore')
 @observer
@@ -21,6 +22,8 @@ class ChooseOpponentScreen extends Component {
         title: {
           text: locale.ru.chats_choose_user,
         },
+        rightButtons: [topBarButtons.createTextButton],
+        rightButtonColor: '#85D305',
       },
     };
   }
