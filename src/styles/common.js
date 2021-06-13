@@ -35,6 +35,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.backgroundGray,
   },
+  chatScreenWrapper: {
+    flex: 0.97,
+  },
   sideMenu: {
     width: Dimensions.get('screen').width * 0.8,
   },

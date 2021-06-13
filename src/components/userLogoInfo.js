@@ -4,6 +4,7 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 import commonStyles from 'styles';
 import Avatar from './avatar';
 import CommonTouchable from './buttons/commonTouchable';
+import screensId from '../navigation/screensId';
 
 const UserLogoInfo = ({
   title,
@@ -12,6 +13,7 @@ const UserLogoInfo = ({
   onPress,
   avatarSettings,
   isOnline,
+  screen,
   isAchieve,
 }) => {
   const [isTick, setIsTick] = useState(false);
