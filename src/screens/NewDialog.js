@@ -12,7 +12,7 @@ import CommonTouchable from '../components/buttons/commonTouchable';
 import EmployeesChatList from '../components/lists/employeesChatList';
 import CreateChatButton from '../components/buttons/createChatButton';
 import commonStyles from '../styles';
-import topBarButtons from '../navigation/topBarButtons';
+import {MOCK_USERS} from '../constants';
 import SearchInput from '../components/inputs/searchInput';
 
 @inject('navigationStore', 'profileStore')
@@ -33,6 +33,15 @@ class NewDialogScreen extends Component {
   handleButtonPress = (id, passProps, options) => {
     this.props.navigationStore.pushScreen(id, passProps, options);
   };
+  @observable
+  Users = null;
+  @action
+  loadUsers() {
+    this.Users = [];
+    MOCK_USERS.forEach(item => {
+      this.Users.push(item);
+    });
+  }
 
   @observable
   employeesListActivity = false;
@@ -130,6 +139,7 @@ class NewDialogScreen extends Component {
 
   componentDidMount() {
     this.getEmployeesCatalog();
+    this.loadUsers();
   }
 
   componentWillUnmount() {
@@ -163,7 +173,7 @@ class NewDialogScreen extends Component {
         </View>
         <View style={styles.blockOffset}>
           <EmployeesChatList
-            data={this.employeesList}
+            data={this.Users}
             refreshing={toJS(this.employeesListActivity)}
             isLoadMoreAvailable={this.isLoadMoreAvailable}
             loadMoreEmployees={this.loadMoreEmployees}

@@ -15,9 +15,8 @@ import EmployeesChatList from '../components/lists/employeesChatList';
 
 import {action, computed, observable, toJS} from 'mobx';
 import {observer, inject} from 'mobx-react';
-import requests from '../network/requests';
-import {showMessage} from '../utils/showMessage';
 import {MOCK_USERS} from '../constants';
+import topBarButtons from '../navigation/topBarButtons';
 
 @inject('profileStore')
 @observer
@@ -30,7 +29,7 @@ class NewGroupChatScreen extends Component {
         title: {
           text: locale.ru.chats_new_group_chat,
         },
-        rightButtons: [topBarButtons.createTextButton],
+        rightButtons: [topBarButtons.filter],
         rightButtonColor: '#85D305',
       },
     };
@@ -45,7 +44,6 @@ class NewGroupChatScreen extends Component {
 
   @observable
   isEnabledEncrypted = false;
-
   @action
   loadUsers() {
     this.Users = [];
@@ -77,108 +75,9 @@ class NewGroupChatScreen extends Component {
   handleButtonPress = (id, passProps, options) => {
     this.props.navigationStore.pushScreen(id, passProps, options);
   };
-
-  @observable
-  employeesListActivity = false;
-
-  @observable
-  employeesList = [];
-
-  @observable
-  searchInputValue = '';
-
-  @observable
-  catalogNextPage = 1;
-
-  @observable
-  isTick = false;
-
-  @computed
-  get isLoadMoreAvailable() {
-    return (
-      !this.employeesListActivity &&
-      !!this.catalogNextPage &&
-      this.employeesList.length
-    );
-  }
-
-  @action
-  handleSearchChange = value => {
-    clearTimeout(this.searchTimeout);
-    this.searchInputValue = value;
-    this.searchTimeout = setTimeout(() => {
-      this.employeesList = [];
-      this.catalogNextPage = 1;
-      this.getEmployeesCatalog();
-    }, 500);
-  };
-
-  @action
-  getEmployeesCatalog = async () => {
-    try {
-      this.employeesListActivity = true;
-      const response = await requests.catalogEmployees(
-        this.searchInputValue,
-        this.catalogNextPage,
-        this.props.unitId,
-        this.props.isSubordinate,
-      );
-      if (response.data.result) {
-        if (this.props.isSubordinate) {
-          this.employeesList = !this.employeesList.length
-            ? [this.props.profileStore.userData, ...response.data.data]
-            : [...this.employeesList, ...response.data.data];
-        } else {
-          this.employeesList = [...this.employeesList, ...response.data.data];
-        }
-      }
-      if (response.data.links.next) {
-        this.catalogNextPage += 1;
-      } else {
-        this.catalogNextPage = null;
-      }
-      console.log(response);
-      this.employeesListActivity = false;
-    } catch (e) {
-      showMessage(locale.ru.error, locale.ru.error_network);
-      this.employeesListActivity = false;
-      console.log(e);
-      console.log(e.response);
-    }
-  };
-
-  @action.bound
-  handleEmployeePress = item => {
-    item.isTick = true;
-  };
-
-  handleRefresh = () => {
-    if (this.Users.isTick) {
-      this.catalogNextPage = 1;
-      this.employeesList = [];
-      this.getEmployeesCatalog();
-    }
-  };
-
-  @action
-  loadMoreEmployees = () => {
-    if (!this.employeesListActivity && !!this.catalogNextPage) {
-      this.getEmployeesCatalog();
-    }
-  };
-
   componentDidMount() {
-    this.getEmployeesCatalog();
     this.loadUsers();
   }
-
-  componentWillUnmount() {
-    const {onEmployeePress} = this.props;
-    if (onEmployeePress) {
-      onEmployeePress(null);
-    }
-  }
-
   render() {
     return (
       <>

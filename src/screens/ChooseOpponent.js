@@ -8,8 +8,9 @@ import locale from '../locale';
 import requests from '../network/requests';
 import {showMessage} from '../utils/showMessage';
 import ScreenWrapper from '../components/ScreenWrapper';
-import EmployeesSearchList from '../components/lists/employeesSearchList';
-import topBarButtons from "../navigation/topBarButtons";
+import EmployeesChatList from '../components/lists/employeesChatList';
+import topBarButtons from '../navigation/topBarButtons';
+import {MOCK_USERS} from '../constants';
 
 @inject('navigationStore', 'profileStore')
 @observer
@@ -22,12 +23,13 @@ class ChooseOpponentScreen extends Component {
         title: {
           text: locale.ru.chats_choose_user,
         },
-        rightButtons: [topBarButtons.createTextButton],
+        rightButtons: [topBarButtons.filter],
         rightButtonColor: '#85D305',
       },
     };
   }
-
+  @observable
+  Users = null;
   @observable
   employeesListActivity = false;
 
@@ -47,6 +49,14 @@ class ChooseOpponentScreen extends Component {
       !!this.catalogNextPage &&
       this.employeesList.length
     );
+  }
+
+  @action
+  loadUsers() {
+    this.Users = [];
+    MOCK_USERS.forEach(item => {
+      this.Users.push(item);
+    });
   }
 
   @action
@@ -123,6 +133,7 @@ class ChooseOpponentScreen extends Component {
 
   componentDidMount() {
     this.getEmployeesCatalog();
+    this.loadUsers();
   }
 
   componentWillUnmount() {
@@ -135,8 +146,8 @@ class ChooseOpponentScreen extends Component {
   render() {
     return (
       <ScreenWrapper>
-        <EmployeesSearchList
-          data={this.employeesList}
+        <EmployeesChatList
+          data={this.Users}
           refreshing={toJS(this.employeesListActivity)}
           searchInputValue={this.searchInputValue}
           isLoadMoreAvailable={this.isLoadMoreAvailable}

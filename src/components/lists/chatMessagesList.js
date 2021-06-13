@@ -5,7 +5,7 @@ import ScreenWrapper from '../ScreenWrapper';
 import {inject} from 'mobx-react';
 import ChatMessagesListItem from '../listsItems/chatMessagesListItem';
 
-class ChatMessagesList extends PureComponent {
+class ChatMessagesList extends React.Component {
   keyExtractor = item => item.messageId;
 
   renderMessage = ({item}) => {
