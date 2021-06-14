@@ -24,9 +24,22 @@ class ChatScreen extends Component {
         title: {
           text: locale.ru.chats_title,
         },
-        rightButtons: [topBarButtons.create],
+        rightButtons: [topBarButtons.search, topBarButtons.create],
       },
     };
+  }
+  @observable
+  chats = null;
+  @action
+  loadChats() {
+    this.chats = [];
+    mockChats.forEach(item => {
+      this.chats.push(item);
+    });
+  }
+  @action.bound
+  addNewChat(item) {
+    this.chats.push(item);
   }
 
   @observable
@@ -53,17 +66,25 @@ class ChatScreen extends Component {
 
   handleTopBarButtonPress = event => {
     if (event.buttonId === topBarButtons.create.id) {
-      this.props.navigationStore.pushScreen(screensId.NEW_DIALOG);
+      this.props.navigationStore.pushScreen(screensId.NEW_DIALOG, {
+        addNewChat: this.addNewChat,
+      });
+    }
+    if (event.buttonId === topBarButtons.search.id) {
+      this.props.navigationStore.pushScreen(screensId.CHAT_SEARCH);
     }
   };
   componentDidMount() {
+    this.loadChats();
     this.removeTopBarButtonsListener = this.props.navigationStore.addTopBarButtonListener(
       ChatScreen.options().id,
       this.handleTopBarButtonPress,
+      this.addNewChat,
     );
   }
 
   componentWillUnmount() {
+    this.chats = null;
     if (this.removeTopBarButtonsListener) {
       this.removeTopBarButtonsListener();
     }
@@ -71,7 +92,7 @@ class ChatScreen extends Component {
   render() {
     return (
       <View style={commonStyles.common.screenWrapper}>
-        <ChatsList data={mockChats} handleChatPress={this.handleChatPress} />
+        <ChatsList data={this.chats} handleChatPress={this.handleChatPress} />
       </View>
     );
   }

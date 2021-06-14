@@ -9,7 +9,7 @@ import commonStyles from 'styles';
 
 import ChatScreenWrapper from '../components/ChatScreenWrapper';
 import ChatMessagesList from '../components/lists/chatMessagesList';
-import { MOCK_USERS } from "../constants";
+import {MOCK_USERS} from '../constants';
 
 class CurrentChatScreen extends Component {
   static options() {
@@ -63,6 +63,7 @@ class CurrentChatScreen extends Component {
   @action
   addMessage(item) {
     this.listOfMessages.push(item);
+    this.value.messageText = '';
   }
 
   componentDidMount() {
@@ -84,7 +85,7 @@ class CurrentChatScreen extends Component {
         </ChatScreenWrapper>
         <TouchableOpacity
           onPress={() => {
-            this.loadListOfMessages();
+            this.addMessage(this.value);
           }}>
           <View style={[{backgroundColor: 'rgba(255,0,0,0.2)'}]}>
             <Text>Add Item</Text>
