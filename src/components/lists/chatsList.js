@@ -5,7 +5,7 @@ import ChatListItem from '../listsItems/chatListItem';
 import CommonTouchable from '../buttons/commonTouchable';
 
 class ChatsList extends PureComponent {
-  keyExtractor = item => item.messageId;
+  keyExtractor = item => item.chatId;
 
   renderChatItem = ({item}) => {
     const {handleChatPress} = this.props;

@@ -54,25 +54,25 @@ export const MESSAGE_TYPE = {
 
 export const MOCK_USERS = [
   {
-    userId: 1,
+    userId: 0,
     fullName: 'Константинопольский Константин Константинович',
     isTick: false,
     icon: require('./assets/images/userProfileAvatars/ava.png'),
   },
   {
-    userId: 2,
+    userId: 1,
     fullName: 'Печорин Игорь Дмитриевич',
     isTick: false,
     icon: require('./assets/images/userProfileAvatars/ava2.png'),
   },
   {
-    userId: 3,
+    userId: 2,
     fullName: 'Цыпа Петр Семенович',
     isTick: false,
     icon: require('./assets/images/userProfileAvatars/ava3.png'),
   },
   {
-    userId: 4,
+    userId: 3,
     fullName: 'Кузичкин Павел Александрович',
     isTick: false,
     icon: require('./assets/images/userProfileAvatars/me.png'),

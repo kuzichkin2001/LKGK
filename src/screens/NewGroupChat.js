@@ -10,7 +10,7 @@ import {
 
 import screensId from '../navigation/screensId';
 import locale from '../locale';
-import {mockChats} from '../constants';
+import {MESSAGE_TYPE} from '../constants';
 import EmployeesChatList from '../components/lists/employeesChatList';
 
 import {action, computed, observable, toJS} from 'mobx';
@@ -18,7 +18,7 @@ import {observer, inject} from 'mobx-react';
 import {MOCK_USERS} from '../constants';
 import topBarButtons from '../navigation/topBarButtons';
 
-@inject('profileStore')
+@inject('navigationStore', 'profileStore')
 @observer
 class NewGroupChatScreen extends Component {
   static options() {
@@ -29,21 +29,51 @@ class NewGroupChatScreen extends Component {
         title: {
           text: locale.ru.chats_new_group_chat,
         },
-        rightButtons: [topBarButtons.filter],
+        rightButtons: [topBarButtons.create],
         rightButtonColor: '#85D305',
       },
     };
+  }
+  constructor(props) {
+    super(props);
+    this.inputRef = React.createRef();
   }
   @observable
   Users = null;
   @observable
   isEnabledClosedChat = false;
+  @observable
+  newGroupChat = {
+    chatId: Math.round(Math.random() + 4),
+    participants: [],
+    messageType: MESSAGE_TYPE.GROUP_CHAT,
+    chatName: '',
+    chatAvatar: require('../assets/images/userProfileAvatars/ava3.png'),
+    messages: [
+      {
+        fromUser: MOCK_USERS[0],
+        messageId: 1,
+        messageAssets: null,
+        messageText: 'It is a message',
+        messageArrivedTime: new Date(),
+      },
+    ],
+    currentlyOnline: true,
+  };
 
   @observable
   isEnabledReadOnly = false;
 
   @observable
   isEnabledEncrypted = false;
+
+  @action
+  handleTopBarButtonPress = event => {
+    if (event.buttonId === topBarButtons.create.id) {
+      this.props.navigationStore.popScreen();
+      this.props.addNewChat(this.newGroupChat);
+    }
+  };
   @action
   loadUsers() {
     this.Users = [];
@@ -66,10 +96,7 @@ class NewGroupChatScreen extends Component {
   }
   @action
   handlePressButton() {
-    this.props.navigationStore.pushScreen(screensId.CURRENT_CHAT, {
-      userData: this.props.profileStore.userData,
-      mockChats,
-    });
+    this.props.addNewChat(this.newGroupChat);
   }
   @action
   handleButtonPress = (id, passProps, options) => {
@@ -77,6 +104,15 @@ class NewGroupChatScreen extends Component {
   };
   componentDidMount() {
     this.loadUsers();
+    this.removeTopBarButtonsListener = this.props.navigationStore.addTopBarButtonListener(
+      NewGroupChatScreen.options().id,
+      this.handleTopBarButtonPress,
+    );
+  }
+  componentWillUnmount() {
+    if (this.removeTopBarButtonsListener) {
+      this.removeTopBarButtonsListener();
+    }
   }
   render() {
     return (
@@ -89,6 +125,10 @@ class NewGroupChatScreen extends Component {
             style={styles_add.InputNameGroupChat}
             placeholder="Введите название чата.."
             placeholderTextColor="#7C8598"
+            value={this.newGroupChat.chatName}
+            onChange={event => {
+              this.newGroupChat.chatName = event.target.value;
+            }}
           />
         </View>
         <View style={styles_add.ClosedChat}>
