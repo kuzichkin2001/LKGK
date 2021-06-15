@@ -13,13 +13,15 @@ class ChatMessagesList extends React.Component {
   };
 
   render() {
-    const {data} = this.props;
+    const {data, style} = this.props;
+    console.log('data passed to list: ', data);
     return (
       <ScreenWrapper>
         <FlatList
           data={data}
           keyExtractor={this.keyExtractor}
           renderItem={this.renderMessage}
+          style={style}
         />
       </ScreenWrapper>
     );

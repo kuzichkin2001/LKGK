@@ -35,11 +35,11 @@ const pickPhoto = async () => {
             ...response,
             name: Platform.select({
               android: response.fileName,
-              ios: response.uri.split('/')[response.uri.split('/').length - 1],
+              ios: response.uri,
             }),
             openUrl: response.uri,
             uploadUrl: Platform.select({
-              ios: response.uri.replace('file://', ''),
+              ios: response.uri,
               android: response.uri,
             }),
           });

@@ -15,7 +15,7 @@ import EmployeesChatList from '../components/lists/employeesChatList';
 
 import {action, computed, observable, toJS} from 'mobx';
 import {observer, inject} from 'mobx-react';
-import {MOCK_USERS} from '../constants';
+import {MESSAGE_TYPE, MOCK_USERS} from '../constants';
 import topBarButtons from '../navigation/topBarButtons';
 
 @inject('navigationStore', 'profileStore')
@@ -34,14 +34,15 @@ class NewGroupChatScreen extends Component {
       },
     };
   }
-  constructor(props) {
-    super(props);
-    this.inputRef = React.createRef();
-  }
   @observable
   Users = null;
+
+  @observable
+  chatName = '';
+
   @observable
   isEnabledClosedChat = false;
+  
   @observable
   newGroupChat = {
     chatId: Math.round(Math.random() + 4),
@@ -69,9 +70,17 @@ class NewGroupChatScreen extends Component {
 
   @action
   handleTopBarButtonPress = event => {
-    if (event.buttonId === topBarButtons.create.id) {
-      this.props.navigationStore.popScreen();
-      this.props.addNewChat(this.newGroupChat);
+    if (event.buttonId === topBarButtons.filter.id) {
+      const newGroupChat = {
+        chatId: this.props.chats.length + 1,
+        participants: this.Users.filter(item => item.isTick),
+        messageType: MESSAGE_TYPE.GROUP_CHAT,
+        chatName: this.chatName,
+        chatAvatar: require('../assets/images/userProfileAvatars/ava2.png'),
+        messages: [],
+        currentlyOnline: true,
+      };
+      this.props.addNewChat(newGroupChat);
     }
   };
   @action
@@ -86,10 +95,12 @@ class NewGroupChatScreen extends Component {
   toggleSwitchClosedChat() {
     this.isEnabledClosedChat = !this.isEnabledClosedChat;
   }
+
   @action.bound
   toggleSwitchReadOnly() {
     this.isEnabledReadOnly = !this.isEnabledReadOnly;
   }
+
   @action.bound
   toggleSwitchEncrypted() {
     this.isEnabledEncrypted = !this.isEnabledEncrypted;
@@ -102,6 +113,7 @@ class NewGroupChatScreen extends Component {
   handleButtonPress = (id, passProps, options) => {
     this.props.navigationStore.pushScreen(id, passProps, options);
   };
+  
   componentDidMount() {
     this.loadUsers();
     this.removeTopBarButtonsListener = this.props.navigationStore.addTopBarButtonListener(
@@ -125,9 +137,9 @@ class NewGroupChatScreen extends Component {
             style={styles_add.InputNameGroupChat}
             placeholder="Введите название чата.."
             placeholderTextColor="#7C8598"
-            value={this.newGroupChat.chatName}
-            onChange={event => {
-              this.newGroupChat.chatName = event.target.value;
+            value={this.chatName}
+            onChangeText={value => {
+              this.chatName = value;
             }}
           />
         </View>

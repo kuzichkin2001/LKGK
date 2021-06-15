@@ -201,6 +201,21 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CeraProRegular,
     color: colors.gray,
   },
+  chatMessageSender: {
+    fontSize: 16,
+    fontFamily: fonts.CeraProMedium,
+    color: colors.blue,
+  },
+  chatMessageText: {
+    fontSize: 14,
+    fontFamily: fonts.CeraProRegular,
+    color: colors.blue,
+  },
+  chatMessageTime: {
+    fontSize: 14,
+    fontFamily: fonts.CeraProRegular,
+    color: colors.gray,
+  },
 });
 
 export default styles;

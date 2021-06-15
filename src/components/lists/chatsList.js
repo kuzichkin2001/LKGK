@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {StyleSheet, FlatList} from 'react-native';
+import {FlatList} from 'react-native';
 
 import ChatListItem from '../listsItems/chatListItem';
 import CommonTouchable from '../buttons/commonTouchable';
@@ -22,6 +22,7 @@ class ChatsList extends PureComponent {
       <>
         <FlatList
           data={data}
+          extraData={data}
           renderItem={this.renderChatItem}
           keyExtractor={this.keyExtractor}
         />
@@ -29,7 +30,5 @@ class ChatsList extends PureComponent {
     );
   }
 }
-
-const styles = StyleSheet.create({});
 
 export default ChatsList;

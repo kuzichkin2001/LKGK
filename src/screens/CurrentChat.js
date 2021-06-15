@@ -1,16 +1,26 @@
 import React, {Component} from 'react';
-import {TextInput, View, StyleSheet, Dimensions, Image, TouchableOpacity, Text} from 'react-native';
+import {
+  TextInput,
+  View,
+  StyleSheet,
+  Dimensions,
+  Image,
+  Text,
+} from 'react-native';
+import pickPhoto from '../utils/pickPhoto';
 
-import {observable, action, computed} from 'mobx';
+import {observable, action, computed, toJS} from 'mobx';
+import {observer} from 'mobx-react';
 import screensId from '../navigation/screensId';
 import locale from '../locale';
 import topBarButtons from '../navigation/topBarButtons';
 import commonStyles from 'styles';
 
-import ChatScreenWrapper from '../components/ChatScreenWrapper';
+import CommonTouchable from '../components/buttons/commonTouchable';
 import ChatMessagesList from '../components/lists/chatMessagesList';
 import {MOCK_USERS} from '../constants';
 
+@observer
 class CurrentChatScreen extends Component {
   static options() {
     return {
@@ -29,21 +39,16 @@ class CurrentChatScreen extends Component {
   listOfMessages = [];
 
   @observable
-  fromUserId = this.props.fromUserId;
+  messageText = '';
+
+  @observable
+  withUser = this.props.participants;
 
   @observable
   messagesEnded = false;
 
   @observable
   messagesNextPage = 1;
-  @observable
-  value = {
-    fromUser: MOCK_USERS[0],
-    messageId: 5,
-    messageAssets: null,
-    messageText: '',
-    messageArrivedTime: new Date(),
-  };
 
   @computed
   get isLoadMoreMessagesAvailable() {
@@ -56,14 +61,41 @@ class CurrentChatScreen extends Component {
 
   @action
   loadListOfMessages() {
+    this.listOfMessages = [];
     this.props.data.forEach(item => {
       this.listOfMessages.push(item);
     });
+    console.log(this.listOfMessages);
   }
-  @action
-  addMessage(item) {
+  addMessage = item => {
     this.listOfMessages.push(item);
-    this.value.messageText = '';
+  };
+
+  @action
+  sendMessage() {
+    const newMessage = {
+      fromUser: MOCK_USERS[3],
+      messageId: this.listOfMessages.length + 1,
+      messageAssets: null,
+      messageText: this.messageText,
+      messageArrivedTime: new Date(),
+    };
+    this.addMessage(newMessage);
+    this.messageText = '';
+  }
+
+  @action
+  async sendAsset() {
+    const link = pickPhoto().uploadUrl;
+    const newMessage = {
+      fromUser: MOCK_USERS[3],
+      messageId: this.listOfMessages.length + 1,
+      messageAssets: link,
+      messageText: null,
+      messageArrivedTime: new Date(),
+    };
+    this.addMessage(newMessage);
+    this.messageText = '';
   }
 
   componentDidMount() {
@@ -79,51 +111,76 @@ class CurrentChatScreen extends Component {
 
   render() {
     return (
-      <>
-        <ChatScreenWrapper>
-          <ChatMessagesList data={this.listOfMessages} />
-        </ChatScreenWrapper>
-        <TouchableOpacity
-          onPress={() => {
-            this.addMessage(this.value);
-          }}>
-          <View style={[{backgroundColor: 'rgba(255,0,0,0.2)'}]}>
-            <Text>Add Item</Text>
-          </View>
-        </TouchableOpacity>
+      <View style={styles.layout}>
+        <View style={[styles.messagesList]}>
+          {this.listOfMessages.length === 0 ? (
+            <Text>
+              {this.withUser.length
+                ? `Это ваш диалог с ${this.withUser.fullName}`
+                : 'В чате до сих пор нет сообщений...'}
+            </Text>
+          ) : (
+            <ChatMessagesList data={toJS(this.listOfMessages)} />
+          )}
+        </View>
         <View style={styles.input}>
-          <Image source={require('../assets/images/InputButtons/smile.png')} />
+          <CommonTouchable>
+            <Image
+              source={require('../assets/images/InputButtons/smile.png')}
+            />
+          </CommonTouchable>
           <TextInput
             placeholder="Введите текст сообщения..."
             placeholderTextColor="#7C8598"
-            style={styles.input2}
-            defaultValue={this.value.messageText}
+            style={styles.messageInput}
+            value={this.messageText}
+            onChangeText={value => {
+              this.messageText = value;
+            }}
           />
           <View style={styles.buttons}>
-            <Image source={require('../assets/images/InputButtons/add.png')} />
-            <Image
-              source={require('../assets/images/InputButtons/add-2.png')}
-            />
+            <CommonTouchable onPress={() => this.sendAsset()}>
+              <Image
+                source={require('../assets/images/InputButtons/add.png')}
+              />
+            </CommonTouchable>
+            <CommonTouchable onPress={() => this.sendMessage()}>
+              <Image
+                source={require('../assets/images/InputButtons/add-2.png')}
+              />
+            </CommonTouchable>
           </View>
         </View>
-      </>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  layout: {
+    flex: 1,
+    position: 'absolute',
+    bottom: 0,
+  },
+  messagesList: {
+    flex: 1,
+    flexDirection: 'column-reverse',
+  },
   input: {
     width: Dimensions.get('screen').width,
     flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'center',
     backgroundColor: commonStyles.colors.backgroundGray,
+    borderTopWidth: 1,
+    borderTopColor: '#DFE1E5',
   },
   buttons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: Dimensions.get('screen').width * 0.2,
   },
-  input2: {
+  messageInput: {
     width: Dimensions.get('screen').width * 0.65,
     paddingLeft: Dimensions.get('screen').width * 0.05,
     justifyContent: 'center',

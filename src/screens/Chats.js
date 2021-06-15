@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {observer, inject} from 'mobx-react';
-import {View, Platform, StyleSheet} from 'react-native';
-import {action, observable} from 'mobx';
+import {View, StyleSheet, Text} from 'react-native';
+import {action, observable, reaction, toJS} from 'mobx';
 
 import screensId from '../navigation/screensId';
 import locale from '../locale';
@@ -29,7 +29,7 @@ class ChatScreen extends Component {
     };
   }
   @observable
-  chats = null;
+  chats = [];
   @action
   loadChats() {
     this.chats = [];
@@ -37,10 +37,10 @@ class ChatScreen extends Component {
       this.chats.push(item);
     });
   }
-  @action.bound
-  addNewChat(item) {
+  
+  addNewChat = item => {
     this.chats.push(item);
-  }
+  };
 
   @observable
   filter = null;
@@ -50,6 +50,9 @@ class ChatScreen extends Component {
       screensId.CURRENT_CHAT,
       {
         data: item.messages,
+        participants: item.participants
+          ? [...item.participants]
+          : item.fromUser,
       },
       {
         id: screensId.CURRENT_CHAT,
@@ -68,6 +71,7 @@ class ChatScreen extends Component {
     if (event.buttonId === topBarButtons.create.id) {
       this.props.navigationStore.pushScreen(screensId.NEW_DIALOG, {
         addNewChat: this.addNewChat,
+        chats: this.chats,
       });
     }
     if (event.buttonId === topBarButtons.search.id) {
@@ -81,6 +85,7 @@ class ChatScreen extends Component {
       this.handleTopBarButtonPress,
       this.addNewChat,
     );
+    this.reactionDisposer = reaction(() => this.chats, this.loadChats);
   }
 
   componentWillUnmount() {
@@ -90,9 +95,17 @@ class ChatScreen extends Component {
     }
   }
   render() {
+    console.log(this.chats);
     return (
       <View style={commonStyles.common.screenWrapper}>
-        <ChatsList data={this.chats} handleChatPress={this.handleChatPress} />
+        {this.chats.length === 0 ? (
+          <Text>Создайте новый чат, больше друзей - больше веселья!</Text>
+        ) : (
+          <ChatsList
+            data={toJS(this.chats)}
+            handleChatPress={this.handleChatPress}
+          />
+        )}
       </View>
     );
   }
