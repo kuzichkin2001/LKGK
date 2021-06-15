@@ -58,6 +58,7 @@ import NewDialogScreen from './NewDialog';
 import NewGroupChatScreen from './NewGroupChat';
 import ChooseOpponentScreen from './ChooseOpponent';
 import CurrentChatScreen from './CurrentChat';
+import ChatSearchScreen from './ChatSearch';
 
 export default {
   LoginScreen,
@@ -120,4 +121,5 @@ export default {
   InquiryCreateScreen,
   InquiryInfoScreen,
   CurrentChatScreen,
+  ChatSearchScreen
 };

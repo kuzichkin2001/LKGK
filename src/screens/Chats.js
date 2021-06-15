@@ -24,13 +24,12 @@ class ChatScreen extends Component {
         title: {
           text: locale.ru.chats_title,
         },
-        rightButtons: [topBarButtons.create],
+        rightButtons: [topBarButtons.search, topBarButtons.create],
       },
     };
   }
   @observable
   chats = [];
-
   @action
   loadChats() {
     this.chats = [];
@@ -38,6 +37,7 @@ class ChatScreen extends Component {
       this.chats.push(item);
     });
   }
+  
   addNewChat = item => {
     this.chats.push(item);
   };
@@ -73,6 +73,9 @@ class ChatScreen extends Component {
         addNewChat: this.addNewChat,
         chats: this.chats,
       });
+    }
+    if (event.buttonId === topBarButtons.search.id) {
+      this.props.navigationStore.pushScreen(screensId.CHAT_SEARCH);
     }
   };
   componentDidMount() {

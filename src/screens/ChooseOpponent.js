@@ -23,7 +23,7 @@ class ChooseOpponentScreen extends Component {
         title: {
           text: locale.ru.chats_choose_user,
         },
-        rightButtons: [topBarButtons.filter],
+        rightButtons: [topBarButtons.create],
         rightButtonColor: '#85D305',
       },
     };

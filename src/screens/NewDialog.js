@@ -163,7 +163,7 @@ class NewDialogScreen extends Component {
               this.handleButtonPress(screensId.NEW_GROUP_CHAT, {
                 addNewChat: this.props.addNewChat,
                 chats: this.props.chats,
-              })
+              });
             }
             title="Создать новый групповой чат"
             iconType="group"

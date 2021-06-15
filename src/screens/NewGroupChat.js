@@ -10,6 +10,7 @@ import {
 
 import screensId from '../navigation/screensId';
 import locale from '../locale';
+import {MESSAGE_TYPE} from '../constants';
 import EmployeesChatList from '../components/lists/employeesChatList';
 
 import {action, computed, observable, toJS} from 'mobx';
@@ -28,12 +29,11 @@ class NewGroupChatScreen extends Component {
         title: {
           text: locale.ru.chats_new_group_chat,
         },
-        rightButtons: [topBarButtons.filter],
+        rightButtons: [topBarButtons.create],
         rightButtonColor: '#85D305',
       },
     };
   }
-
   @observable
   Users = null;
 
@@ -42,24 +42,25 @@ class NewGroupChatScreen extends Component {
 
   @observable
   isEnabledClosedChat = false;
-  // @observable
-  // newGroupChat = {
-  //   chatId: Math.round(Math.random() + 4),
-  //   participants: [],
-  //   messageType: MESSAGE_TYPE.GROUP_CHAT,
-  //   chatName: '',
-  //   chatAvatar: require('../assets/images/userProfileAvatars/ava3.png'),
-  //   messages: [
-  //     {
-  //       fromUser: MOCK_USERS[0],
-  //       messageId: 1,
-  //       messageAssets: null,
-  //       messageText: 'It is a message',
-  //       messageArrivedTime: new Date(),
-  //     },
-  //   ],
-  //   currentlyOnline: true,
-  // };
+  
+  @observable
+  newGroupChat = {
+    chatId: Math.round(Math.random() + 4),
+    participants: [],
+    messageType: MESSAGE_TYPE.GROUP_CHAT,
+    chatName: '',
+    chatAvatar: require('../assets/images/userProfileAvatars/ava3.png'),
+    messages: [
+      {
+        fromUser: MOCK_USERS[0],
+        messageId: 1,
+        messageAssets: null,
+        messageText: 'It is a message',
+        messageArrivedTime: new Date(),
+      },
+    ],
+    currentlyOnline: true,
+  };
 
   @observable
   isEnabledReadOnly = false;
@@ -80,7 +81,6 @@ class NewGroupChatScreen extends Component {
         currentlyOnline: true,
       };
       this.props.addNewChat(newGroupChat);
-      // this.props.navigationStore.popToScreen(screensId.CHATS);
     }
   };
   @action
@@ -105,7 +105,15 @@ class NewGroupChatScreen extends Component {
   toggleSwitchEncrypted() {
     this.isEnabledEncrypted = !this.isEnabledEncrypted;
   }
-
+  @action
+  handlePressButton() {
+    this.props.addNewChat(this.newGroupChat);
+  }
+  @action
+  handleButtonPress = (id, passProps, options) => {
+    this.props.navigationStore.pushScreen(id, passProps, options);
+  };
+  
   componentDidMount() {
     this.loadUsers();
     this.removeTopBarButtonsListener = this.props.navigationStore.addTopBarButtonListener(
