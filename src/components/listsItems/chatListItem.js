@@ -29,7 +29,7 @@ class ChatListItem extends PureComponent {
       <CommonTouchable onPress={showCurrentChat}>
         <View style={[commonStyles.common.listItem, styles.listItem]}>
           <Image
-            source={item.userAvatar ? item.userAvatar : item.chatAvatar}
+            source={item.userAvatar || item.chatAvatar}
             style={styles.imageOffset}
           />
           <View style={styles.commonChatInfo}>
@@ -49,13 +49,17 @@ class ChatListItem extends PureComponent {
               </Text>
             </View>
             <Text style={styles.messageContent} numberOfLines={2}>
-              {item.messages[item.messages.length - 1].messageText}
+              {item.messages.length !== 0
+                ? item.messages[item.messages.length - 1].messageText
+                : 'Начните диалог!'}
             </Text>
           </View>
           <Text style={[styles.messageTimeOffset, commonStyles.texts.titleBig]}>
-            {showTime(
-              item.messages[item.messages.length - 1].messageArrivedTime,
-            )}
+            {item.messages.length !== 0
+              ? showTime(
+                  item.messages[item.messages.length - 1].messageArrivedTime,
+                )
+              : showTime(new Date())}
           </Text>
         </View>
       </CommonTouchable>

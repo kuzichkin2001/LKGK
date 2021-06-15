@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import {StyleSheet, View, Text, Image, Dimensions} from 'react-native';
 
 import {showTime} from '../../utils/formatTime';
+import commonStyles from '../../styles';
 
 const width = Dimensions.get('screen').width;
 
@@ -16,19 +17,21 @@ class ChatMessagesListItem extends PureComponent {
             <Text style={styles.sender} numberOfLines={1}>
               {message.fromUser.fullName}
             </Text>
-            <Text style={styles.sendTime}>
+            <Text style={commonStyles.texts.chatMessageTime}>
               {showTime(message.messageArrivedTime)}
             </Text>
           </View>
           <View style={styles.messageContent}>
-            {message.messageAssets && (
+            {message.messageAssets !== null && (
               <Image
                 style={styles.messageAsset}
-                source={message.messageAssets}
+                source={{uri: message.messageAssets}}
               />
             )}
-            {message.messageText && (
-              <Text style={styles.messageText}>{message.messageText}</Text>
+            {message.messageText !== null && (
+              <Text style={commonStyles.texts.chatMessageText}>
+                {message.messageText}
+              </Text>
             )}
           </View>
         </View>
@@ -45,6 +48,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   messageLayout: {
+    width: width * 0.8,
     paddingLeft: width * 0.03,
     flexDirection: 'column',
     justifyContent: 'space-around',
@@ -55,6 +59,7 @@ const styles = StyleSheet.create({
   },
   sender: {
     width: width * 0.6,
+    ...commonStyles.texts.chatMessageSender,
   },
 });
 

@@ -159,7 +159,12 @@ class NewDialogScreen extends Component {
         />
         <View style={styles.blockOffset}>
           <CreateChatButton
-            onPress={() => this.handleButtonPress(screensId.NEW_GROUP_CHAT)}
+            onPress={() =>
+              this.handleButtonPress(screensId.NEW_GROUP_CHAT, {
+                addNewChat: this.props.addNewChat,
+                chats: this.props.chats,
+              })
+            }
             title="Создать новый групповой чат"
             iconType="group"
           />

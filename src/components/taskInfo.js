@@ -53,6 +53,7 @@ class TaskInfo extends Component {
   }
 
   render() {
+    console.log(this.file);
     const {
       data,
       onEmployeePress,
